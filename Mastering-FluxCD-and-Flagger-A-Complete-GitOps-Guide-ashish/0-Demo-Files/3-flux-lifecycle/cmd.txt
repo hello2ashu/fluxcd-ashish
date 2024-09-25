@@ -1,0 +1,60 @@
+minikube start -p fluxcd-case1 --driver=docker
+minikube stop -p fluxcd-case1 
+minikube delete -p fluxcd-case1 
+
+minikube profile fluxcd-case1
+
+minikube update-context -p fluxcd-case1
+
+minikube status
+
+
+
+flux check --pre
+
+flux check
+
+flux install --export > flux-system.yaml
+
+
+flux install
+
+
+flux bootstrap github --owner=%GITHUB_USER% --repository=fleet-infra --branch=main --path=./clusters/my-cluster --personal
+
+
+flux create source git webapp-latest \
+  --url=https://github.com/smacacademy4all/podinfo \
+  --branch=master \
+  --interval=3m
+
+flux get sources git
+
+flux reconcile source git webapp-latest
+
+flux export source git --all > sources.yaml
+
+flux create kustomization webapp-dev \
+    --target-namespace=default \
+    --source=webapp-latest \
+    --path="./kustomize" \
+    --prune=true \
+    --interval=1m \
+    --retry-interval=2m \
+    --health-check-timeout=3m
+
+
+
+flux reconcile kustomization webapp-dev --with-source
+
+flux suspend kustomization webapp-dev
+
+flux resume kustomization webapp-dev
+
+flux export kustomization --all > kustomizations.yaml
+
+flux delete kustomization webapp-dev
+flux delete source git webapp-latest
+
+flux uninstall
+

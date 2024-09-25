@@ -1,0 +1,28 @@
+Preview Kustomize File
+~~~~~~~~~~~~~~~~~~~~~~
+
+kubectl kustomize overlays/development
+
+kubectl kustomize overlays/production
+
+
+Apply Kustomize files
+~~~~~~~~~~~~~~~~~~~~~
+
+
+kubectl apply -k overlays/development
+
+kubectl apply -k overlays/production
+
+
+kubectl delete -k overlays/development
+
+kubectl delete -k overlays/production
+
+
+~~~~~~~~~~~~~~~~~~~~~
+
+If kustomize installed as executable then
+
+kustomize build overlays/development | kubectl apply -f -
+kustomize build overlays/production | kubectl apply -f -

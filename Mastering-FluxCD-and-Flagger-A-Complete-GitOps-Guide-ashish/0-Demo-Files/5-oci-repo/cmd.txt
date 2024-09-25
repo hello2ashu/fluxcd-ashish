@@ -1,0 +1,7 @@
+kubectl apply -f oci-repo.yaml
+
+kubectl get ocirepository
+
+kubectl describe ocirepository podinfo
+
+kubectl delete -f oci-repo.yaml

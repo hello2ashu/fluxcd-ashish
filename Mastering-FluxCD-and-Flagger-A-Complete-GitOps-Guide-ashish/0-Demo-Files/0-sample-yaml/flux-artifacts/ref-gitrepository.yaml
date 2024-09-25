@@ -1,0 +1,49 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: full-options-repo
+  namespace: flux-system
+spec:
+  # URL of the git repository
+  url: "https://github.com/example/repo.git"
+
+  # Branch, tag, or commit SHA to checkout
+  ref:
+    branch: main
+
+  # Secret reference containing credentials to access the repository
+  secretRef:
+    name: git-credentials
+
+  # Frequency of synchronization
+  interval: 1m
+
+  # Timeout for git operations like clone or fetch
+  timeout: 20s
+
+  # Verify OpenPGP signatures
+  verify:
+    secretRef:
+      name: git-gpg-key-secret
+
+  # Fetch only the first history depth commits
+  depth: 1
+
+  # Include submodules in the fetch
+  recurseSubmodules: true
+
+  # Only fetch these directories or files
+  include:
+    - "deploy/"
+    - "base/"
+  
+  # Exclude these directories or files from synchronization
+  exclude:
+    - "examples/"
+    - "tests/"
+
+  # Suspend the automatic reconciliation
+  suspend: false
+
+  # Set to ignore transient errors during Git operations
+  ignoreTransientErrors: true

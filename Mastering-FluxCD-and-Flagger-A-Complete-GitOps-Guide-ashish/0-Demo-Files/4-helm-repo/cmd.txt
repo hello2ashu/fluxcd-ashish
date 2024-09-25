@@ -1,0 +1,22 @@
+Prerequisites
+~~~~~~~~~~~~~
+
+Kubernetes cluster (like minikube or kind)
+kubectl configured to communicate with your cluster
+Helm version 3
+Flux CLI
+
+
+flux create source helm podinfo --url=https://stefanprodan.github.io/podinfo --interval=1m
+flux create source helm podinfo --url=https://github.com/stefanprodan/podinfo/tree/37ba3e854fd4409b124b4abcf6cadb45eede9d4f/charts/podinfo --interval=1m
+flux get source helm
+
+kubectl get helmrepository -n flux-system
+kubectl describe helmrepository podinfo -n flux-system
+
+flux create helmrelease podinfo --source=HelmRepository/podinfo --chart=podinfo --chart-version="5.1.2" --target-namespace=default --interval=1m
+
+http://localhost:8001/api/v1/namespaces/default/services/default-podinfo:9898/proxy/
+
+flux delete source helm podinfo
+flux delete helmrelease podinfo

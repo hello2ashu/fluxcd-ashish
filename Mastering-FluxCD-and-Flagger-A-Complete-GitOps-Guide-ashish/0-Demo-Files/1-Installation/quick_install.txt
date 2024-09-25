@@ -1,0 +1,41 @@
+
+flux bootstrap github --owner=$GITHUB_USER --repository=fluxcd-infra --branch=main --path=./clusters/my-cluster --personal
+
+flux bootstrap github --owner=%GITHUB_USER% --repository=fluxcd-infra --branch=main --path=./clusters/my-cluster --personal
+
+
+The flux command-line interface (CLI) from Release page
+
+export GITHUB_TOKEN=<your-token>
+export GITHUB_USER=<your-username>
+
+flux check --pre
+
+flux bootstrap github --owner=$GITHUB_USER --repository=fleet-infra --branch=main --path=./clusters/my-cluster --personal
+
+flux bootstrap github --owner=%GITHUB_USER% --repository=fleet-infra --branch=main --path=./clusters/my-cluster --personal
+
+add my-pod.yaml in git repository under clusters/my-cluster
+
+Create source
+~~~~~~~~~~~~~
+
+flux create source git webapp-latest \
+    --url=https://github.com/smacacademy4all/podinfo \
+    --branch=master \
+    --interval=1m
+    
+flux create source git webapp-latest --url=https://github.com/smacacademy4all/podinfo --branch=master --interval=1m    
+
+
+Create Kustomization
+~~~~~~~~~~~~~~~~~~~~
+
+flux create kustomization webapp-latest \
+    --target-namespace=default \
+    --source=webapp-latest \
+    --path="./kustomize" \
+    --prune=true \
+    --interval=1m \
+    --retry-interval=2m \
+    --health-check-timeout=3m

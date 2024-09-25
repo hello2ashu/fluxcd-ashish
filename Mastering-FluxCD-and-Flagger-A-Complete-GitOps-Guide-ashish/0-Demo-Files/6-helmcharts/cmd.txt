@@ -1,0 +1,9 @@
+kubectl apply -f helmchart.yaml
+
+kubectl get helmchart
+
+kubectl describe helmchart podinfo
+
+
+kubectl delete -f helmchart.yaml
+

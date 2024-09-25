@@ -1,0 +1,7 @@
+kubectl apply -f helmrepository.yaml
+
+kubectl apply -f helmrelease-grafana.yaml
+
+kubectl apply -f kustomization.yaml
+
+minikube ip

@@ -1,0 +1,3 @@
+kubectl apply -f gitrepository.yaml
+
+kubectl apply -f kustomization.yaml

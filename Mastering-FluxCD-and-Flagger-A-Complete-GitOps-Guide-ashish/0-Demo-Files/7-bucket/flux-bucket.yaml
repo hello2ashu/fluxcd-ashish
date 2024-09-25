@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-credentials
+  namespace: flux-system
+type: Opaque
+data:
+  accesskey: cm9vdHVzZXI=  # Base64 encoded 'rootuser'
+  secretkey: cm9vdHBhc3MxMjM=  # Base64 encoded 'rootuser123'
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: Bucket
+metadata:
+  name: fluxcd-bucket
+  namespace: flux-system
+spec:
+  interval: 1m
+  bucketName: fluxcd-bucket
+  endpoint: minio-1714052874.default.svc.cluster.local:9000
+  insecure: true
+  provider: generic
+  secretRef:
+    name: minio-credentials

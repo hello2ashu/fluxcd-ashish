@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: flux-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: grafana
+      version: "6.17.5"  # Adjust this version if there's a newer one available that might have resolved PSP issues.
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+      interval: 1m
+  values:
+    adminUser: admin
+    adminPassword: strongpassword
+    service:
+      type: NodePort
+      ports:
+        http: 80
+    ingress:
+      enabled: false
+    psp:
+      enabled: false  # Disable PodSecurityPolicy
+    rbac:
+      pspEnabled: false  # Ensure RBAC settings do not attempt to use PSP

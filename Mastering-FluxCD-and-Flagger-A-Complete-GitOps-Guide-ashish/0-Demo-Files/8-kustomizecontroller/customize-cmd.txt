@@ -1,0 +1,6 @@
+kubectl apply -f kustomize-with-source.yaml
+
+kubectl get gitrepository
+kubectl get kustomization
+
+

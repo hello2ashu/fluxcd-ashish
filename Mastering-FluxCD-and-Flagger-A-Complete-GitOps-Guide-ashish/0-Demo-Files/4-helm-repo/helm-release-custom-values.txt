@@ -1,0 +1,28 @@
+flux create source helm podinfo \
+--namespace=default \
+--url=https://stefanprodan.github.io/podinfo \
+--interval=10m
+
+
+cat > podinfo-values.yaml <<EOL
+replicaCount: 3
+resources:
+  limits:
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 64Mi
+EOL
+
+flux create helmrelease podinfo \
+--namespace=default \
+--source=HelmRepository/podinfo \
+--release-name=podinfo \
+--chart=podinfo \
+--chart-version=">5.0.0" \
+--values=podinfo-values.yaml
+
+flux get helmreleases -n default
+
+flux -n default delete source helm podinfo
+flux -n default delete helmrelease podinfo
